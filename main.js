@@ -50,7 +50,7 @@ function playRound(computerChoice, playerChoice) {
     }
 }
 
-/*
+/* quick test 
 const playerSelection = "rock";
 const computerSelection = getComputerChoice();
 console.log(playRound(playerSelection, computerSelection));
@@ -65,7 +65,7 @@ function getPlayerChoice() {
         //console.log(playerChoice);
         if (!playerChoice) {
             console.log('thanks for playing!');
-            return;
+            break;
         }
         playerChoiceLower = playerChoice.toLowerCase();
         //console.log(playerChoiceLower);
@@ -73,15 +73,19 @@ function getPlayerChoice() {
     return playerChoice;
 }
 
+//play game first to 5 wins
 function game() {
     let playerRounds = 0;
     let computerRounds = 0;
 
-    for (let i = 0; i < 5; i++) {
-        let winner = playRound(getComputerChoice(), getPlayerChoice());
+    while(playerRounds < 5 && computerRounds < 5) {
+        let playerChoice = getPlayerChoice();
+        if(!playerChoice) break;
+        let winner = playRound(getComputerChoice(), playerChoice);
         if (winner > 0) playerRounds++;
         else if (winner < 0) computerRounds++;
     }
+    
     console.log(`Computer: ${computerRounds} Human: ${playerRounds}`);
     if (playerRounds > computerRounds) console.log("You win! Good Job!!!!")
     else if (computerRounds > playerRounds) console.log('You is a loser lolololololol');
