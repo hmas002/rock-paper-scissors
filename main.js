@@ -27,6 +27,64 @@ function getComputerChoice() {
 
     if (choice === 1) return "Rock";
     else if (choice === 2) return "Paper";
-    else if (choice === 3) return "Scissors";
+    else if (choice === 3) return "Scissor";
     else return "ERROR ON COMPUTER CHOICE";
 }
+
+//plays round of game 
+function playRound(computerChoice, playerChoice) {
+    const computer = computerChoice.toLowerCase();
+    const player = playerChoice.toLowerCase();
+
+    if (computer === player) {
+        console.log(`This is a tie. You both picked ${computerChoice}. Try again or dont i do not really care.`);
+        return 0;
+    }
+    else if ((computer === 'rock' && player === "scissor") || (computer === 'scissor' && player === "paper") || (computer === 'paper' && player === "rock")) {
+        console.log(`You is a loser! ${computerChoice} beats ${playerChoice}`);
+        return -1;
+    }
+    else {
+        console.log(`You is a winner! ${playerChoice} beats ${computerChoice}`);
+        return 1;
+    }
+}
+
+/*
+const playerSelection = "rock";
+const computerSelection = getComputerChoice();
+console.log(playRound(playerSelection, computerSelection));
+*/
+
+function getPlayerChoice() {
+    let playerChoice = '';
+    let playerChoiceLower = '';
+
+    do {
+        playerChoice = prompt("Pick something please????");
+        //console.log(playerChoice);
+        if (!playerChoice) {
+            console.log('thanks for playing!');
+            return;
+        }
+        playerChoiceLower = playerChoice.toLowerCase();
+        //console.log(playerChoiceLower);
+    } while (playerChoiceLower != 'rock' && playerChoiceLower != 'scissor' && playerChoiceLower != 'paper');
+    return playerChoice;
+}
+
+function game() {
+    let playerRounds = 0;
+    let computerRounds = 0;
+
+    for (let i = 0; i < 5; i++) {
+        let winner = playRound(getComputerChoice(), getPlayerChoice());
+        if (winner > 0) playerRounds++;
+        else if (winner < 0) computerRounds++;
+    }
+    console.log(`Computer: ${computerRounds} Human: ${playerRounds}`);
+    if (playerRounds > computerRounds) console.log("You win! Good Job!!!!")
+    else if (computerRounds > playerRounds) console.log('You is a loser lolololololol');
+    else console.log("you tied which is pretyr much a loss lololololo!!!");
+}
+game();
