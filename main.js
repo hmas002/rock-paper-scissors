@@ -1,25 +1,12 @@
-/* Rock paper scissors game
-
-No user interface. 
-
-User will input data through console. Other data will be give by computer. Need two players 
-
-Desired output will be to determine the winner of the game.
-
-How to get desired output?
-
-Will we have to get a selection from both the computer and the user.
-
-compare the two selections and deermine who wins using game rules.
-
-output winner. 
-
-*/
-
 const buttons = document.querySelectorAll('button');
 const resultsContainer = document.querySelector('.results');
 const choices = document.createElement('p');
 const results = document.createElement('p');
+const compScore = document.createElement('p');
+const humanScore = document.createElement('p');
+const winner = document.createElement('p');
+let playerScore = 0;
+let computerScore = 0;
 
 
 function getRandomInt(min, max) {
@@ -44,24 +31,55 @@ function playRound(computerChoice, playerChoice) {
 
     if (computer === player) {
         results.textContent = `This is a tie. You both picked ${computerChoice}. Try again or dont i do not really care.`;
-        return 0;
     }
     else if ((computer === 'rock' && player === "scissor") || (computer === 'scissor' && player === "paper") || (computer === 'paper' && player === "rock")) {
         results.textContent = `You is a loser! ${computerChoice} beats ${playerChoice}`;
-        return -1;
+        computerScore++;
     }
     else {
         results.textContent = `You is a winner! ${playerChoice} beats ${computerChoice}`;
-        return 1;
+        playerScore++;
+    }
+
+    compScore.textContent = `Computer score: ${computerScore}`;
+    humanScore.textContent = `Human score: ${playerScore}`;
+}
+
+function isWinner() {
+    if(playerScore >= 5 || computerScore >= 5) {
+        winner.textContent = playerScore > computerScore ? 'You win' : 'You lose';
+        buttons.forEach(button => button.disabled = true);
     }
 }
-console.log(results);
+
+buttons.forEach(button => button.addEventListener('click', () => {
+    //console.log(button.className);
+    let compChoice = getComputerChoice();
+    choices.textContent = `Computer picked ${compChoice}. Human picked ${button.className}.`;
+    playRound(compChoice, button.className);
+    isWinner();
+}));
+
+resultsContainer.appendChild(choices);
+resultsContainer.appendChild(results);
+resultsContainer.appendChild(compScore);
+resultsContainer.appendChild(humanScore);
+resultsContainer.appendChild(winner);
+
+
+
+
+
+
+
+
+
 /* quick test 
 const playerSelection = "rock";
 const computerSelection = getComputerChoice();
 console.log(playRound(playerSelection, computerSelection));
 */
-
+/*
 function getPlayerChoice() {
     let playerChoice = '';
     let playerChoiceLower = '';
@@ -92,20 +110,10 @@ function game() {
         else if (winner < 0) computerRounds++;
     }
 
-    console.log(`Computer: ${computerRounds} Human: ${playerRounds}`);
+    //console.log(`Computer: ${computerRounds} Human: ${playerRounds}`);
     if (playerRounds > computerRounds) console.log("You win! Good Job!!!!")
     else if (computerRounds > playerRounds) console.log('You is a loser lolololololol');
     else console.log("you tied which is pretty much a loss lololololo!!!");
 }
 //game();
-
-buttons.forEach(button => button.addEventListener('click', () => {
-    //console.log(button.className);
-    let compChoice = getComputerChoice();
-    choices.textContent = `Computer picked ${compChoice}. Human picked ${button.className}.`;
-
-    playRound(compChoice, button.className);
-}));
-
-resultsContainer.appendChild(choices);
-resultsContainer.appendChild(results);
+*/
