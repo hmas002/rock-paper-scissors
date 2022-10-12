@@ -8,6 +8,12 @@ const winner = document.createElement('p');
 let playerScore = 0;
 let computerScore = 0;
 
+resultsContainer.appendChild(choices);
+resultsContainer.appendChild(results);
+resultsContainer.appendChild(compScore);
+resultsContainer.appendChild(humanScore);
+resultsContainer.appendChild(winner);
+
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -45,10 +51,28 @@ function playRound(computerChoice, playerChoice) {
     humanScore.textContent = `Human score: ${playerScore}`;
 }
 
+function playAgain() {
+    const playAgainbtn = document.createElement('button');
+    playAgainbtn.textContent = 'Play Again';
+    resultsContainer.appendChild(playAgainbtn);
+    playAgainbtn.addEventListener('click', () => {
+        playerScore = 0;
+        computerScore = 0;
+        choices.textContent = '';
+        results.textContent = '';
+        compScore.textContent = '';
+        humanScore.textContent = '';
+        winner.textContent = '';
+        buttons.forEach(button => button.disabled = false);
+        resultsContainer.removeChild(playAgainbtn);
+    });
+}
+
 function isWinner() {
     if(playerScore >= 5 || computerScore >= 5) {
         winner.textContent = playerScore > computerScore ? 'You win' : 'You lose';
         buttons.forEach(button => button.disabled = true);
+        playAgain();
     }
 }
 
@@ -60,11 +84,6 @@ buttons.forEach(button => button.addEventListener('click', () => {
     isWinner();
 }));
 
-resultsContainer.appendChild(choices);
-resultsContainer.appendChild(results);
-resultsContainer.appendChild(compScore);
-resultsContainer.appendChild(humanScore);
-resultsContainer.appendChild(winner);
 
 
 
